@@ -16,7 +16,7 @@ CIRCL_LU_URL = "https://cve.circl.lu/api/query"
 CVES_JSON_PATH = join(pathlib.Path(__file__).parent.absolute(), "output/botpeas.json")
 LAST_NEW_CVE = datetime.datetime.now() - datetime.timedelta(days=1)
 LAST_MODIFIED_CVE = datetime.datetime.now() - datetime.timedelta(days=1)
-TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+TIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
 
 KEYWORDS_CONFIG_PATH = join(pathlib.Path(__file__).parent.absolute(), "config/botpeas.yaml")
 ALL_VALID = False
@@ -205,7 +205,6 @@ def generate_new_cve_message(cve_data: dict) -> str:
 
     message = f"🚨 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']}) 🚨\n"
     keyword = cve_data['keyword'].replace(" ", "_")
-    message += f"🏷️ *keyword*:  #{keyword}  \n"
     message += f"🏷️ *keyword*:  #{keyword}  \n"
     message += f"🔮  *CVSS*: {cve_data['cvss']}\n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
