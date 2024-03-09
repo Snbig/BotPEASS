@@ -200,7 +200,8 @@ def generate_new_cve_message(cve_data: dict) -> str:
     ''' Generate new CVE message for sending to slack '''
 
     message = f"🚨  *{cve_data['id']}*  🚨\n"
-    message += f"🚨  *{cve_data['keyword'].replace(" ", "_")}*  🚨\n"
+    keyword = cve_data['keyword'].replace(" ", "_")
+    message += f"🚨  #*{keyword}*  🚨\n"
     message += f"🔮  *CVSS*: {cve_data['cvss']}\n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
     message += "📓  *Summary*: " 
@@ -214,6 +215,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
     message += "\n"
 
     #message += "\n\n(Check the bots description for more information about the bot)\n"
+    print(message)
     
     return message
 
