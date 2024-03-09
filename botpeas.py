@@ -199,18 +199,18 @@ def search_exploits(cve: str) -> list:
 def generate_new_cve_message(cve_data: dict) -> str:
     ''' Generate new CVE message for sending to slack '''
 
-    message = f"<p>🚨  <b>{cve_data['id']}</b>  🚨</p>\n"
+    message = f"<b>🚨  <b>{cve_data['id']}</b>  🚨</b>\n"
     keyword = cve_data['keyword'].replace(" ", "_")
-    message += f"<p>🏷️ <b>keyword</b>:  #{keyword}</p>\n"
-    message += f"<p>🔮  <b>CVSS</b>: {cve_data['cvss']}</p>\n"
-    message += f"<p>📅  <b>Published</b>: {cve_data['Published']}</p>\n"
-    message += "<p>📓  <b>Summary</b>: " 
+    message += f"<b>🏷️ <b>keyword</b>:  #{keyword}</b>\n"
+    message += f"<b>🔮  <b>CVSS</b>: {cve_data['cvss']}</b>\n"
+    message += f"<b>📅  <b>Published</b>: {cve_data['Published']}</b>\n"
+    message += "<b>📓  <b>Summary</b>: " 
     message += cve_data["summary"] if len(cve_data["summary"]) < 500 else cve_data["summary"][:500] + "..."
     
     if cve_data["vulnerable_configuration"]:
-        message += f"<p>🔓  <b>Vulnerable</b> (_limit to 10_): " + ", ".join(cve_data["vulnerable_configuration"][:10]) + "</p>"
+        message += f"<b>🔓  <b>Vulnerable</b> (_limit to 10_): " + ", ".join(cve_data["vulnerable_configuration"][:10]) + "</b>"
     
-    message += "\n\n<p>🟢 ℹ️  <b>More information</b> (_limit to 5_)</p>\n" + "<br>".join(cve_data["references"][:5])
+    message += "\n\n<b>🟢 ℹ️  <b>More information</b> (_limit to 5_)</b>\n" + "<br>".join(cve_data["references"][:5])
     
     message += "<br>"
 
@@ -223,7 +223,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
 def generate_modified_cve_message(cve_data: dict) -> str:
     ''' Generate modified CVE message for sending to slack '''
 
-    message = f"<p>📣 <b>{cve_data['id']}</b>(<i>{cve_data['cvss']}</i>) was modified the {cve_data['last-modified'].split('T')[0]} (<i>originally published the {cve_data['Published'].split('T')[0]}</i>)</p>"
+    message = f"<b>📣 <b>{cve_data['id']}</b>(<i>{cve_data['cvss']}</i>) was modified the {cve_data['last-modified'].split('T')[0]} (<i>originally published the {cve_data['Published'].split('T')[0]}</i>)</b>"
     return message
 
 
@@ -233,7 +233,7 @@ def generate_public_expls_message(public_expls: list) -> str:
     message = ""
 
     if public_expls:
-        message = "<p>😈  <b>Public Exploits</b> (_limit 20_)</p>\n" + "<br>".join(public_expls[:20])
+        message = "<b>😈  <b>Public Exploits</b> (_limit 20_)</b>\n" + "<br>".join(public_expls[:20])
 
     return message
 
