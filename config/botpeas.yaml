@@ -29,6 +29,9 @@ PRODUCT_KEYWORDS_I:
 - lxc
 - podman
 - container
+- microsoft
+- windows
+
 
 PRODUCT_KEYWORDS:
 - ThisIsACaseSensitiveExample
