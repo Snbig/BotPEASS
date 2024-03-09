@@ -144,8 +144,8 @@ def filter_cves(cves: list, last_time: datetime.datetime, tt_filter: Time_Type) 
                 if(is_prod_keyword_present(str(cve["vulnerable_configuration"]))) : cve['keyword'] = is_prod_keyword_present(str(cve["vulnerable_configuration"]))
                 filtered_cves.append(cve)
 
-        # if cve_time > new_last_time:
-        #     new_last_time = cve_time
+        if cve_time > new_last_time:
+            new_last_time = cve_time
 
     return filtered_cves, new_last_time
 
