@@ -200,7 +200,7 @@ def search_exploits(cve: str) -> list:
 def generate_new_cve_message(cve_data: dict) -> str:
     ''' Generate new CVE message for sending to slack '''
 
-    message = f"🚨  *{cve_data['id']}*  🚨\n"
+    message = f"🚨 [https://nvd.nist.gov/vuln/detail/{cve_data['id']}]({cve_data['id']}) 🚨\n"
     keyword = cve_data['keyword'].replace(" ", "_")
     message += f"🏷️ *keyword*:  #{keyword}  \n"
     message += f"🔮  *CVSS*: {cve_data['cvss']}\n"
@@ -211,7 +211,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
     if cve_data["vulnerable_configuration"]:
         message += f"\n🔓  *Vulnerable* (_limit to 10_): " + ", ".join(cve_data["vulnerable_configuration"][:10])
     
-    message += "\n\n🟢 ℹ️  *More information* (_limit to 5_)\n" + "\n".join(cve_data["references"][:5])
+    message += "\n\n🟢 ℹ️  *More information*: \n" + "\n".join(cve_data["references"][:5])
     
     message += "\n"
 
