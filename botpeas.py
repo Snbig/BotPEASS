@@ -158,14 +158,20 @@ def is_summ_keyword_present(summary: str):
     for w in DESCRIPTION_KEYWORDS_I:
         if w.lower() in summary.lower():
             return w
-
+    return ''
 
 
 def is_prod_keyword_present(products: str):
-    ''' Given the summary check if any keyword is present '''
+    ''' Given the summary find if any keyword is present '''
     
-    return any(w in products for w in PRODUCT_KEYWORDS) or \
-            any(w.lower() in products.lower() for w in PRODUCT_KEYWORDS_I)
+    for w in PRODUCT_KEYWORDS:
+        if w in products:
+            return w
+    for w in PRODUCT_KEYWORDS_I:
+        if w.lower() in products.lower():
+            return w.lower()
+    
+    return ''  # Return empty string if no keyword found
 
 
 def search_exploits(cve: str) -> list:
