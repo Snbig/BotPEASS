@@ -299,11 +299,11 @@ def send_telegram_message(message: str, public_expls_msg: str):
         message = message + "\n" + public_expls_msg
 
     message = message.replace(".", "\\.").replace("-", "\\-").replace("(", "\\(").replace(")", "\\)").replace("_", "").replace("[","\\[").replace("]","\\]").replace("{","\\{").replace("}","\\}").replace("=","\\=")
-    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=html&text={message}&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
+    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=markdown&text={message}&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
 
     resp = r.json()
     if not resp['ok']:
-        r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=html&text=Error with' + message.split("\n")[0] + f'{resp["description"]}&chat_id={telegram_chat_id}')
+        r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=markdown&text=Error with' + message.split("\n")[0] + f'{resp["description"]}&chat_id={telegram_chat_id}')
         resp = r.json()
         if not resp['ok']:
             print("ERROR SENDING TO TELEGRAM: "+ message.split("\n")[0] + resp["description"])
