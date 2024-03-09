@@ -143,8 +143,8 @@ def filter_cves(cves: list, last_time: datetime.datetime, tt_filter: Time_Type) 
                 if(is_prod_keyword_present(str(cve["vulnerable_configuration"]))) : cve['keyword'] = is_prod_keyword_present(str(cve["vulnerable_configuration"]))
                 filtered_cves.append(cve)
 
-        if cve_time > new_last_time:
-            new_last_time = cve_time
+        # if cve_time > new_last_time:
+        #     new_last_time = cve_time
 
     return filtered_cves, new_last_time
 
@@ -299,7 +299,7 @@ def send_telegram_message(message: str, public_expls_msg: str):
         message = message + "\n" + public_expls_msg
 
     message = message.replace(".", "\\.").replace("-", "\\-").replace("(", "\\(").replace(")", "\\)").replace("_", "").replace("[","\\[").replace("]","\\]").replace("{","\\{").replace("}","\\}").replace("=","\\=")
-    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=HTML&text=<b>test#</b>&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
+    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=HTML&text=<b>test</b>&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
 
     resp = r.json()
     if not resp['ok']:
