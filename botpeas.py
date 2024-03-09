@@ -5,6 +5,7 @@ import json
 import os
 import yaml
 import vulners
+import urllib.parse
 
 from os.path import join
 from enum import Enum
@@ -201,7 +202,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
 
     message = f"🚨  *{cve_data['id']}*  🚨\n"
     keyword = cve_data['keyword'].replace(" ", "_")
-    message += f"🏷️ *keyword*:  %23{keyword}  \n"
+    message += f"🏷️ *keyword*:  #{keyword}  \n"
     message += f"🔮  *CVSS*: {cve_data['cvss']}\n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
     message += "📓  *Summary*: " 
@@ -299,7 +300,7 @@ def send_telegram_message(message: str, public_expls_msg: str):
         message = message + "\n" + public_expls_msg
 
     message = message.replace(".", "\\.").replace("-", "\\-").replace("(", "\\(").replace(")", "\\)").replace("_", "").replace("[","\\[").replace("]","\\]").replace("{","\\{").replace("}","\\}").replace("=","\\=")
-    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=MarkdownV2&text={message}&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
+    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=MarkdownV2&text={urllib.parse.quote_plus(message)}&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
 
     resp = r.json()
     if not resp['ok']:
