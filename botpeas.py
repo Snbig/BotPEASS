@@ -216,7 +216,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
     message += "\n"
 
     #message += "\n\n(Check the bots description for more information about the bot)\n"
-    print(message)
+    print(cve_data)
     
     return message
 
