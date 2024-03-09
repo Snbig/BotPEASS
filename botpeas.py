@@ -199,20 +199,20 @@ def search_exploits(cve: str) -> list:
 def generate_new_cve_message(cve_data: dict) -> str:
     ''' Generate new CVE message for sending to slack '''
 
-    message = f"<b>🚨  <b>{cve_data['id']}</b>  🚨</b>\n"
-    keyword = cve_data['keyword'].replace(" ", "_")
-    message += f"<b>🏷️ <b>keyword</b>:  #{keyword}</b>\n"
-    message += f"<b>🔮  <b>CVSS</b>: {cve_data['cvss']}</b>\n"
-    message += f"<b>📅  <b>Published</b>: {cve_data['Published']}</b>\n"
-    message += "<b>📓  <b>Summary</b>: " 
+    message = f"🚨  *{cve_data['id']}*  🚨\n"
+    keyword = cve_data['keyword'].replace(" ", "\_")
+    message += f"🏷️ *keyword*:  \#{keyword}  \n"
+    message += f"🔮  *CVSS*: {cve_data['cvss']}\n"
+    message += f"📅  *Published*: {cve_data['Published']}\n"
+    message += "📓  *Summary*: " 
     message += cve_data["summary"] if len(cve_data["summary"]) < 500 else cve_data["summary"][:500] + "..."
     
     if cve_data["vulnerable_configuration"]:
-        message += f"<b>🔓  <b>Vulnerable</b> (_limit to 10_): " + ", ".join(cve_data["vulnerable_configuration"][:10]) + "</b>"
+        message += f"\n🔓  *Vulnerable* (_limit to 10_): " + ", ".join(cve_data["vulnerable_configuration"][:10])
     
-    message += "\n\n<b>🟢 ℹ️  <b>More information</b> (_limit to 5_)</b>\n" + "<br>".join(cve_data["references"][:5])
+    message += "\n\n🟢 ℹ️  *More information* (_limit to 5_)\n" + "\n".join(cve_data["references"][:5])
     
-    message += "<br>"
+    message += "\n"
 
     #message += "\n\n(Check the bots description for more information about the bot)\n"
     print(message)
@@ -223,7 +223,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
 def generate_modified_cve_message(cve_data: dict) -> str:
     ''' Generate modified CVE message for sending to slack '''
 
-    message = f"<b>📣 <b>{cve_data['id']}</b>(<i>{cve_data['cvss']}</i>) was modified the {cve_data['last-modified'].split('T')[0]} (<i>originally published the {cve_data['Published'].split('T')[0]}</i>)</b>"
+    message = f"📣 *{cve_data['id']}*(_{cve_data['cvss']}_) was modified the {cve_data['last-modified'].split('T')[0]} (_originally published the {cve_data['Published'].split('T')[0]}_)\n"
     return message
 
 
@@ -233,7 +233,7 @@ def generate_public_expls_message(public_expls: list) -> str:
     message = ""
 
     if public_expls:
-        message = "<b>😈  <b>Public Exploits</b> (_limit 20_)</b>\n" + "<br>".join(public_expls[:20])
+        message = "😈  *Public Exploits* (_limit 20_)  😈\n" + "\n".join(public_expls[:20])
 
     return message
 
@@ -299,11 +299,11 @@ def send_telegram_message(message: str, public_expls_msg: str):
         message = message + "\n" + public_expls_msg
 
     message = message.replace(".", "\\.").replace("-", "\\-").replace("(", "\\(").replace(")", "\\)").replace("_", "").replace("[","\\[").replace("]","\\]").replace("{","\\{").replace("}","\\}").replace("=","\\=")
-    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=HTML&text={message}&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
+    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=MarkdownV2&text={message}&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
 
     resp = r.json()
     if not resp['ok']:
-        r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=HTML&text=Error with' + message.split("\n")[0] + f'{resp["description"]}&chat_id={telegram_chat_id}')
+        r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=MarkdownV2&text=Error with' + message.split("\n")[0] + f'{resp["description"]}&chat_id={telegram_chat_id}')
         resp = r.json()
         if not resp['ok']:
             print("ERROR SENDING TO TELEGRAM: "+ message.split("\n")[0] + resp["description"])
