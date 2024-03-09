@@ -139,9 +139,8 @@ def filter_cves(cves: list, last_time: datetime.datetime, tt_filter: Time_Type) 
         cve_time = datetime.datetime.strptime(cve[tt_filter.value], TIME_FORMAT)
         if cve_time > last_time:
             if ALL_VALID or is_summ_keyword_present(cve["summary"]) or is_prod_keyword_present(str(cve["vulnerable_configuration"])):
-                print("keyword : "+is_summ_keyword_present(cve["summary"])+" and , : "+is_prod_keyword_present(str(cve["vulnerable_configuration"])))
-                print(type(cve))
-                print(cve)
+                if(is_summ_keyword_present(cve["summary"])) : cve['keyword'] = is_summ_keyword_present(cve["summary"])
+                if(is_prod_keyword_present(str(cve["vulnerable_configuration"]))) : cve['keyword'] = is_prod_keyword_present(str(cve["vulnerable_configuration"]))
                 filtered_cves.append(cve)
 
         if cve_time > new_last_time:
@@ -201,6 +200,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
     ''' Generate new CVE message for sending to slack '''
 
     message = f"🚨  *{cve_data['id']}*  🚨\n"
+    message += f"🚨  *{cve_data['keyword']}*  🚨\n"
     message += f"🔮  *CVSS*: {cve_data['cvss']}\n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
     message += "📓  *Summary*: " 
