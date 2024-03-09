@@ -282,6 +282,12 @@ def send_telegram_message(message: str, public_expls_msg: str):
         print("TELEGRAM_CHAT_ID wasn't configured in the secrets!")
         return
     
+    if not telegram_thread_id:
+        print("TELEGRAM_THREAD_ID wasn't configured in the secrets!")
+        return
+    print(telegram_thread_id)
+    print(type(telegram_thread_id))
+    
     if public_expls_msg:
         message = message + "\n" + public_expls_msg
 
