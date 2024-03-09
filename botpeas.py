@@ -152,8 +152,14 @@ def filter_cves(cves: list, last_time: datetime.datetime, tt_filter: Time_Type) 
 def is_summ_keyword_present(summary: str):
     ''' Given the summary check if any keyword is present '''
 
-    return any(w in summary for w in DESCRIPTION_KEYWORDS) or \
-            any(w.lower() in summary.lower() for w in DESCRIPTION_KEYWORDS_I)
+    for w in DESCRIPTION_KEYWORDS:
+        if w in summary:
+            return w
+
+    for w in DESCRIPTION_KEYWORDS_I:
+        if w.lower() in summary.lower():
+            return w
+
 
 
 def is_prod_keyword_present(products: str):
@@ -266,6 +272,7 @@ def send_telegram_message(message: str, public_expls_msg: str):
 
     telegram_bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
     telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')    
+    telegram_thread_id = os.getenv('TELEGRAM_THREAD_ID') 
 
     if not telegram_bot_token:
         print("TELEGRAM_BOT_TOKEN wasn't configured in the secrets!")
@@ -279,7 +286,7 @@ def send_telegram_message(message: str, public_expls_msg: str):
         message = message + "\n" + public_expls_msg
 
     message = message.replace(".", "\\.").replace("-", "\\-").replace("(", "\\(").replace(")", "\\)").replace("_", "").replace("[","\\[").replace("]","\\]").replace("{","\\{").replace("}","\\}").replace("=","\\=")
-    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=MarkdownV2&text={message}&chat_id={telegram_chat_id}')
+    r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=MarkdownV2&text={message}&chat_id={telegram_chat_id}&message_thread_id={telegram_thread_id}')
 
     resp = r.json()
     if not resp['ok']:
