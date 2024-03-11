@@ -91,7 +91,7 @@ def get_cves(tt_filter:Time_Type) -> dict:
         "time_modifier": "from",
         "time_start": now_str,
         "time_type": tt_filter.value,
-        "limit": "500",
+        "limit": "100",
     }
     r = requests.get(CIRCL_LU_URL, headers=headers)
     return r.json()
@@ -225,7 +225,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
 def generate_modified_cve_message(cve_data: dict) -> str:
     ''' Generate modified CVE message for sending to slack '''
 
-    message = f"📣 *{cve_data['id']}*\\(_{cve_data['cvss']}_\\) was modified the {cve_data['last-modified'].split('T')[0]} \\(_originally published the {cve_data['Published'].split('T')[0]}_\\)\n"
+    message = f"📣 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']})\\(_{cve_data['cvss']}_\\) was modified the {cve_data['last-modified'].split('T')[0]} \\(_originally published the {cve_data['Published'].split('T')[0]}_\\)\n"
     return message
 
 
