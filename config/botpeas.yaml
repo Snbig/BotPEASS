@@ -19,6 +19,7 @@ DESCRIPTION_KEYWORDS_I:
 - " lxc "
 - podman
 - microsoft
+- windows
 
 DESCRIPTION_KEYWORDS:
 - ThisIsACaseSensitiveExample
