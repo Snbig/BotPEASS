@@ -91,11 +91,9 @@ def get_cves(tt_filter:Time_Type) -> dict:
         "time_modifier": "from",
         "time_start": now_str,
         "time_type": tt_filter.value,
-        "limit": "100",
+        "limit": "500",
     }
     r = requests.get(CIRCL_LU_URL, headers=headers)
-    print('#')
-    print(r.json)
     return r.json()
 
 
