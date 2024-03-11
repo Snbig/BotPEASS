@@ -1,4 +1,4 @@
-ALL_VALID: no
+ALL_VALID: yes
 
 DESCRIPTION_KEYWORDS_I:
 - privilege escalation
