@@ -94,7 +94,8 @@ def get_cves(tt_filter:Time_Type) -> dict:
         "limit": "100",
     }
     r = requests.get(CIRCL_LU_URL, headers=headers)
-
+    print('#')
+    print(r.json)
     return r.json()
 
 
@@ -204,7 +205,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
 
 
     message = f"🚨 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']}) 🚨\n"
-    keyword = cve_data['keyword'].replace(" ", "_")
+    keyword = cve_data.get('keyword', '').replace(" ", "_")
     message += f"🏷️ *keyword*:  #{keyword}  \n"
     message += f"🔮  *CVSS*: {cve_data['cvss']}\n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
@@ -219,7 +220,6 @@ def generate_new_cve_message(cve_data: dict) -> str:
     message += "\n"
 
     #message += "\n\n(Check the bots description for more information about the bot)\n"
-    print(cve_data)
     
     return message
 
