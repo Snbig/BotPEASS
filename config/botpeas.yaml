@@ -18,6 +18,7 @@ DESCRIPTION_KEYWORDS_I:
 - kubernetes
 - " lxc "
 - podman
+- microsoft
 
 DESCRIPTION_KEYWORDS:
 - ThisIsACaseSensitiveExample
