@@ -225,7 +225,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
 def generate_modified_cve_message(cve_data: dict) -> str:
     ''' Generate modified CVE message for sending to slack '''
 
-    message = f"📣 *{cve_data['id']}*\(_{cve_data['cvss']}_\) was modified the {cve_data['last-modified'].split('T')[0]} \(_originally published the {cve_data['Published'].split('T')[0]}_\)\n"
+    message = f"📣 *{cve_data['id']}*\\(_{cve_data['cvss']}_\\) was modified the {cve_data['last-modified'].split('T')[0]} \\(_originally published the {cve_data['Published'].split('T')[0]}_\\)\n"
     return message
 
 
