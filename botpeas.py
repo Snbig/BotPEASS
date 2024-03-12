@@ -97,7 +97,6 @@ def get_cves(tt_filter:Time_Type) -> dict:
     try:
         r = requests.get(CIRCL_LU_URL, headers=headers)
         r.raise_for_status()
-        return r.json()
     except requests.Timeout:
         print("Timeout occurred. Closing the program.")
         exit()
@@ -113,7 +112,7 @@ def get_cves(tt_filter:Time_Type) -> dict:
     except requests.exceptions.RequestException as e:
         print("An error occurred:", e)
         exit()
-    
+    return r.json()
 
 
 def get_new_cves() -> list:
@@ -325,10 +324,7 @@ def send_telegram_message(message: str, public_expls_msg: str):
 
     resp = r.json()
     if not resp['ok']:
-        r = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/sendMessage?parse_mode=MarkdownV2&text=Error with' + message.split("\n")[0] + f'{resp["description"]}&chat_id={telegram_chat_id}')
-        resp = r.json()
-        if not resp['ok']:
-            print("ERROR SENDING TO TELEGRAM: "+ message.split("\n")[0] + resp["description"])
+        print("ERROR SENDING TO TELEGRAM: "+ message.split("\n")[0] + resp["description"])
 
             
 def send_discord_message(message: str, public_expls_msg: str):
