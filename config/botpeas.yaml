@@ -20,6 +20,18 @@ DESCRIPTION_KEYWORDS_I:
 - podman
 - microsoft
 - windows
+- CISCO
+- Windows
+- Linux
+- HP LaserJet
+- Unix
+- Switch
+- D-Link
+- Debian
+- IOS
+- Nutanix
+- VMware
+- FortiOS
 
 DESCRIPTION_KEYWORDS:
 - ThisIsACaseSensitiveExample
@@ -32,8 +44,19 @@ PRODUCT_KEYWORDS_I:
 - podman
 - container
 - microsoft
-- windows
 - mozilla
+- CISCO
+- Windows
+- Linux
+- HP LaserJet
+- Unix
+- Switch
+- D-Link
+- Debian
+- IOS
+- Nutanix
+- VMware
+- FortiOS
 
 
 PRODUCT_KEYWORDS:
