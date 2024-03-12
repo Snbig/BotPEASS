@@ -93,15 +93,26 @@ def get_cves(tt_filter:Time_Type) -> dict:
         "time_type": tt_filter.value,
         "limit": "100",
     }
-    r = requests.get(CIRCL_LU_URL, headers=headers)
+
     try:
         r = requests.get(CIRCL_LU_URL, headers=headers)
+        r.raise_for_status()
         return r.json()
     except requests.Timeout:
         print("Timeout occurred. Closing the program.")
         exit()
     except requests.RequestException as e:
         print("An error occurred:", e)
+        exit()
+    except requests.exceptions.ConnectionError as e:
+        print("Connection error occurred:", e)
+        exit()
+    except requests.exceptions.ProtocolError as e:
+        print("Protocol error occurred:", e)
+        exit()
+    except requests.exceptions.RequestException as e:
+        print("An error occurred:", e)
+        exit()
     
 
 
