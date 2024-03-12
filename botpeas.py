@@ -94,7 +94,15 @@ def get_cves(tt_filter:Time_Type) -> dict:
         "limit": "100",
     }
     r = requests.get(CIRCL_LU_URL, headers=headers)
-    return r.json()
+    try:
+        r = requests.get(CIRCL_LU_URL, headers=headers)
+        return r.json()
+    except requests.Timeout:
+        print("Timeout occurred. Closing the program.")
+        exit()
+    except requests.RequestException as e:
+        print("An error occurred:", e)
+    
 
 
 def get_new_cves() -> list:
