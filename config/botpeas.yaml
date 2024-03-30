@@ -1,8 +1,8 @@
 ALL_VALID: no
 
 DESCRIPTION_KEYWORDS_I:
-- microsoft
-- windows
+- Microsoft
+- Mozilla
 - CISCO
 - Windows
 - Linux
@@ -15,13 +15,75 @@ DESCRIPTION_KEYWORDS_I:
 - Nutanix
 - VMware
 - FortiOS
+- Photoshop
+- Acrobat
+- Reader
+- Premiere Pro
+- Premiere Elements
+- Photoshop Elements
+- Digital Editions
+- Creative Cloud Desktop
+- Application
+- SVG-Native-Viewer
+- InCopy
+- InDesign
+- macOS
+- Server for Slack
+- Jira
+- Atlassian
+- Data Center
+- Core Data Center
+- Software Data Center
+- Service Management
+- Data Center
+- Server
+- Confluence
+- Data Center
+- Bitbucket
+- Crowd
+- Elastic
+- Internet Security
+- Gravity Zone Business
+- Security
+- Hypervisor Introspection
+- Endpoint Security Tools
+- SonicWall
+- SolarWinds
+- Sophos
+- Dell
+- F5
+- Fortinet
+- Chrome
+- Nginx
+- IBM
+- Huawei
+- Intel
+- WordPress
+- Drupal
+- Mongo dB
+- Thunderbird
+- ManageEngine
+- QNAP
+- Wireshark
+- Oracle
+- PostgreSQL
+- Netgate
+- Nvidia
+- Zyxel
+- Linksys
+- Eclipse
+- Django
+- Java
+- Asp.net
+- MariaDB
+
 
 DESCRIPTION_KEYWORDS:
 - ThisIsACaseSensitiveExample
 
 PRODUCT_KEYWORDS_I:
-- microsoft
-- mozilla
+- Microsoft
+- Mozilla
 - CISCO
 - Windows
 - Linux
@@ -34,6 +96,66 @@ PRODUCT_KEYWORDS_I:
 - Nutanix
 - VMware
 - FortiOS
+- Photoshop
+- Acrobat
+- Reader
+- Premiere Pro
+- Premiere Elements
+- Photoshop Elements
+- Digital Editions
+- Creative Cloud Desktop
+- Application
+- SVG-Native-Viewer
+- InCopy
+- InDesign
+- Server for Slack
+- Jira
+- Atlassian
+- Data Center
+- Core Data Center
+- Software Data Center
+- Service Management
+- Data Center
+- Server
+- Confluence
+- Data Center
+- Bitbucket
+- Crowd
+- Elastic
+- Internet Security
+- Gravity Zone Business
+- Security
+- Hypervisor Introspection
+- Endpoint Security Tools
+- SonicWall
+- SolarWinds
+- Sophos
+- Dell
+- F5
+- Fortinet
+- Chrome
+- Nginx
+- IBM
+- Huawei
+- Intel
+- WordPress
+- Drupal
+- Mongo dB
+- Thunderbird
+- ManageEngine
+- QNAP
+- Wireshark
+- Oracle
+- PostgreSQL
+- Netgate
+- Nvidia
+- Zyxel
+- Linksys
+- Eclipse
+- Django
+- Java
+- Asp.net
+- MariaDB
 
 
 PRODUCT_KEYWORDS:
