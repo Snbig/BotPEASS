@@ -1,0 +1,3 @@
+[submodule "nvdcve"]
+	path = nvdcve
+	url = https://github.com/olbat/nvdcve.git
