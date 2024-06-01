@@ -247,8 +247,8 @@ def get_cvss_data(cve_id):
             vector_string = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
             base_score = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
             base_severity = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseSeverity']
-            if data[0]['weaknesses'][0]['description'][0]['value'] :
-                cwe = data[0]['weaknesses'][0]['description'][0]['value']
+            if data['data'][0]['weaknesses'][0]['description'][0]['value'] :
+                cwe = data['data'][0]['weaknesses'][0]['description'][0]['value']
             else :
                 cwe = ""
             print(cwe)
