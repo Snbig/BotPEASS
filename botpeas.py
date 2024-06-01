@@ -211,19 +211,59 @@ def search_exploits(cve: str) -> list:
     
     return []
 
+def get_cvss_data(cve_id):
+    headers = {
+        'accept': 'application/json',
+        'accept-language': 'en-US,en;q=0.9',
+        'authorization': 'Bearer vulncheck_651a1cb2fed5133603e938335ebeaf165dac1505beedeb51c8dbf2218b0d9fde',
+        'cache-control': 'no-cache',
+        'origin': 'https://vulncheck.com',
+        'pragma': 'no-cache',
+        'priority': 'u=1, i',
+        'referer': 'https://vulncheck.com/',
+        'sec-ch-ua': '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-site',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+    }
+
+    params = {
+        'cve': cve_id,
+    }
+
+    response = requests.get('https://api.vulncheck.com/v3/index/nist-nvd2', params=params, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+
+        try:
+            vector_string = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
+            base_score = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
+            return vector_string, base_score
+        except (KeyError, IndexError) as e:
+            print("Error in extracting data:", e)
+            return None, None
+    else:
+        return None, None
 
 #################### GENERATE MESSAGES #########################
 
 def generate_new_cve_message(cve_data: dict) -> str:
     ''' Generate new CVE message for sending to slack '''
 
-    vendor = requests.get(f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_data['id']}")
+    
 
+    vendor = requests.get(f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_data['id']}")
+    vector_string, base_score = get_cvss_data(cve_data['id'])
 
     message = f"🚨 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']}) 🚨\n"
     keyword = cve_data.get('keyword', '').replace(" ", "\\_")
     message += f"🏷️ *keyword*:  #{keyword}  \n"
-    message += f"🔮  *CVSS*: {cve_data['cvss']}\n"
+    message += f"🔮  *Base Score*: {base_score}\n"
+    message += f"✨  *Vector String*: {vector_string}\n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
     message += "📓  *Summary*: " 
     cve_data["summary"] = cve_data["summary"].replace("_", "\\_")
