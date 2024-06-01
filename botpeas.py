@@ -242,7 +242,8 @@ def get_cvss_data(cve_id):
         try:
             vector_string = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
             base_score = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
-            return vector_string, base_score
+            base_severity = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseSeverity']
+            return vector_string, base_score,base_severity
         except (KeyError, IndexError) as e:
             print("Error in extracting data:", e)
             return None, None
@@ -257,11 +258,19 @@ def generate_new_cve_message(cve_data: dict) -> str:
     
 
     vendor = requests.get(f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_data['id']}")
-    vector_string, base_score = get_cvss_data(cve_data['id'])
+    vector_string, base_score,base_severity = get_cvss_data(cve_data['id'])
+    if vector_string and base_score and base_severity:
+        severity_icon = {
+            'LOW': '🟡',
+            'MEDIUM': '🟠',
+            'HIGH': '🔴',
+            'CRITICAL': '🟣'
+        }.get(base_severity.upper(), '')
 
     message = f"🚨 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']}) 🚨\n"
     keyword = cve_data.get('keyword', '').replace(" ", "\\_")
     message += f"🏷️ *keyword*:  #{keyword}  \n"
+    message += f"{severity_icon}  *Base Severity*: {base_severity}\n"
     message += f"🔮  *Base Score*: {base_score}\n"
     message += f"✨  *Vector String*: {vector_string}\n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
