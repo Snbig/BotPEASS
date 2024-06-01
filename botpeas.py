@@ -270,7 +270,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
     message = f"🚨 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']}) 🚨\n"
     keyword = cve_data.get('keyword', '').replace(" ", "\\_")
     message += f"🏷️ *keyword*:  #{keyword}  \n"
-    message += f"{severity_icon}  *Base Severity*: {base_severity}\n"
+    message += f"{severity_icon}  *Base Severity*: #{base_severity}\n"
     message += f"🔮  *Base Score*: {base_score}\n"
     message += f"✨  *Vector String*: {vector_string}\n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
