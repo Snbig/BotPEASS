@@ -30,11 +30,15 @@ class Time_Type(Enum):
     PUBLISHED = "Published"
     LAST_MODIFIED = "last-modified"
 
+cwe_data = {}
 
 ################## LOAD CONFIGURATIONS ####################
 
 def load_keywords():
     ''' Load keywords from config file '''
+
+    with open("config/cwe_data.json", 'r', encoding='utf-8') as file:
+        cwe_data = json.load(file)
 
     global ALL_VALID
     global DESCRIPTION_KEYWORDS_I, DESCRIPTION_KEYWORDS
@@ -243,26 +247,25 @@ def get_cvss_data(cve_id):
             vector_string = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
             base_score = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
             base_severity = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseSeverity']
-            return vector_string, base_score,base_severity
+            cwe = data[0]['weaknesses'][0]['description'][0]['value']
+            return vector_string, base_score,base_severity,cwe
         except (KeyError, IndexError) as e:
             print("Error in extracting data:", e)
-            return None, None,None
+            return None, None,None,None
     else:
-        return None, None,None
+        return None, None,None,None
 
 #################### GENERATE MESSAGES #########################
 
 def generate_new_cve_message(cve_data: dict) -> str:
     ''' Generate new CVE message for sending to slack '''
 
-    
-
     vendor = requests.get(f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_data['id']}")
     vector_string, base_score,base_severity = get_cvss_data(cve_data['id'])
 
-    message = f"🚨 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']}) 🚨\n"
+    message = f"📝 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']}) 📝\n"
     keyword = cve_data.get('keyword', '').replace(" ", "\\_")
-    
+
     if vector_string and base_score and base_severity:
         severity_icon = {
             'LOW': '🟡',
@@ -273,6 +276,9 @@ def generate_new_cve_message(cve_data: dict) -> str:
         message += f"{severity_icon}  *Base Severity*: #{base_severity}\n"
         message += f"🔮  *Base Score*: {base_score}\n"
         message += f"✨  *Vector String*: {vector_string}\n"
+
+    if cwe :
+        message += f"✨  *cwe*: {cwe} {cwe_data.get(cwe, "CWE ID not found")} \n"
 
     message += f"🏷️ *keyword*:  #{keyword}  \n"
     message += f"📅  *Published*: {cve_data['Published']}\n"
