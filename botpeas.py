@@ -244,13 +244,24 @@ def get_cvss_data(cve_id):
         data = response.json()
 
         try:
-            vector_string = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
-            base_score = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
-            base_severity = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseSeverity']
+            if data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['vectorString'] :
+                vector_string = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
+                base_score = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
+                base_severity = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseSeverity']
+            elif data['data'][0]['metrics']['cvssMetricV30'][0]['cvssData']['vectorString'] :
+                vector_string = data['data'][0]['metrics']['cvssMetricV30'][0]['cvssData']['vectorString']
+                base_score = data['data'][0]['metrics']['cvssMetricV30'][0]['cvssData']['baseScore']
+                base_severity = data['data'][0]['metrics']['cvssMetricV30'][0]['cvssData']['baseSeverity']
+            else : 
+                vector_string = ""
+                base_score = ""
+                base_severity = ""
+
             if data['data'][0]['weaknesses'][0]['description'][0]['value'] :
                 cwe = data['data'][0]['weaknesses'][0]['description'][0]['value']
             else :
                 cwe = ""
+                
             print(cwe)
             return vector_string, base_score,base_severity,cwe
         except (KeyError, IndexError) as e:
