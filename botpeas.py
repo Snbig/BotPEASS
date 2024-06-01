@@ -248,6 +248,7 @@ def get_cvss_data(cve_id):
             base_score = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
             base_severity = data['data'][0]['metrics']['cvssMetricV31'][0]['cvssData']['baseSeverity']
             cwe = data[0]['weaknesses'][0]['description'][0]['value']
+            print(cwe)
             return vector_string, base_score,base_severity,cwe
         except (KeyError, IndexError) as e:
             print("Error in extracting data:", e)
