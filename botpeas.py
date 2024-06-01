@@ -261,7 +261,7 @@ def get_cvss_data(cve_id):
                 cwe = data['data'][0]['weaknesses'][0]['description'][0]['value']
             else :
                 cwe = ""
-                
+
             print(cwe)
             return vector_string, base_score,base_severity,cwe
         except (KeyError, IndexError) as e:
@@ -292,6 +292,9 @@ def generate_new_cve_message(cve_data: dict) -> str:
         message += f"🔮  *Base Score*: {base_score}\n"
         message += f"✨  *Vector String*: {vector_string}\n"
 
+    print(cwe_data.get(cwe))
+    print(cwe_data)
+    print(cwe)
     if cwe :
         message += f"✨  *cwe*: {cwe} {cwe_data.get(cwe, "CWE ID not found")} \n"
 
