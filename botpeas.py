@@ -246,9 +246,9 @@ def get_cvss_data(cve_id):
             return vector_string, base_score,base_severity
         except (KeyError, IndexError) as e:
             print("Error in extracting data:", e)
-            return None, None
+            return None, None,None
     else:
-        return None, None
+        return None, None,None
 
 #################### GENERATE MESSAGES #########################
 
