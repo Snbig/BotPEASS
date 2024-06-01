@@ -261,7 +261,7 @@ def generate_new_cve_message(cve_data: dict) -> str:
     ''' Generate new CVE message for sending to slack '''
 
     vendor = requests.get(f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_data['id']}")
-    vector_string, base_score,base_severity = get_cvss_data(cve_data['id'])
+    vector_string, base_score,base_severity,cwe = get_cvss_data(cve_data['id'])
 
     message = f"📝 [{cve_data['id']}](https://nvd.nist.gov/vuln/detail/{cve_data['id']}) 📝\n"
     keyword = cve_data.get('keyword', '').replace(" ", "\\_")
